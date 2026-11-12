@@ -134,6 +134,10 @@ function BrightPathChat() {
           content: message.parts.map((part) => part.text).join(""),
         }));
 
+      if (isRetry) {
+        outgoingMessages.push({ role: "user", content: normalizedQuestion });
+      }
+
       if (!isRetry && !hasPendingUserQuestion) {
         outgoingMessages.push({ role: "user", content: normalizedQuestion });
         const userMessage: ChatMessage = {
