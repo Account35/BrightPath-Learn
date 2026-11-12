@@ -392,18 +392,20 @@ function BrightPathChat() {
             aria-labelledby="source-list-title"
             className="mt-auto border-t border-border pt-4"
           >
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               id="source-list-title"
               aria-expanded={sourceListOpen}
               onClick={() => setSourceListOpen((open) => !open)}
-              className="flex w-full items-center justify-between px-2 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
+              className="h-8 w-full justify-between px-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
             >
               <span className="flex items-center gap-2">
                 <BookOpen aria-hidden="true" className="size-4" /> SOURCE DOCUMENTS
               </span>
               <span aria-hidden="true">{sourceListOpen ? "−" : "+"}</span>
-            </button>
+            </Button>
             {sourceListOpen && (
               <ul className="mt-1 grid gap-1 px-2">
                 {BRIGHTPATH_DOCUMENTS.map((document) => (
