@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -27,4 +28,10 @@ use the editor.
   `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
+
 <!-- LOVABLE:END -->
+
+## Application architecture
+
+- Keep chat threads in root-level React memory, keyed by a dedicated thread URL; do not persist messages, so refresh starts a blank session. This matches the requested thread navigation with no saved history.
+- Keep the document corpus and grounding prompt in a shared safe module; all model calls belong in a server-only helper and stream through the TanStack API route so AI credentials and prompts never enter the browser bundle.
