@@ -156,18 +156,14 @@ function BrightPathChat() {
       setStatus("submitted");
       focusComposer();
 
-      if (forceFailure || simulateFailure) {
-        setStatus("ready");
-        setErrorMessage("A simulated network error interrupted the request.");
-        setFailedQuestion(normalizedQuestion);
-        focusComposer();
-        return;
-      }
-
       const controller = new AbortController();
       activeRequest.current = controller;
 
       try {
+        if (forceFailure || simulateFailure) {
+          throw new Error("Simulated network failure");
+        }
+
         const response = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -239,7 +235,11 @@ function BrightPathChat() {
           return;
         }
         setStatus("ready");
-        setErrorMessage("We couldn't reach the help desk. Check your connection and try again.");
+        setErrorMessage(
+          forceFailure || simulateFailure
+            ? "A simulated network error interrupted the request."
+            : "We couldn't reach the help desk. Check your connection and try again.",
+        );
         setFailedQuestion(normalizedQuestion);
         focusComposer();
       } finally {
@@ -411,6 +411,23 @@ function BrightPathChat() {
           </label>
         </header>
 
+        <nav aria-label="Mobile conversations" className="flex items-center gap-2 overflow-x-auto border-b border-border bg-card px-4 py-2 md:hidden">
+          <Button onClick={handleCreateThread} size="sm" variant="outline" className="shrink-0 gap-1.5">
+            <Plus aria-hidden="true" className="size-4" /> New
+          </Button>
+          {threads.map((item) => (
+            <Link
+              key={item.id}
+              to="/chat/$threadId"
+              params={{ threadId: item.id }}
+              aria-current={item.id === threadId ? "page" : undefined}
+              className={`max-w-40 shrink-0 truncate rounded-md px-2.5 py-1.5 text-xs ${item.id === threadId ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
+            >
+              {item.title}
+            </Link>
+          ))}
+        </nav>
+
         <div className="flex min-h-0 flex-1 flex-col">
           <div className="mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col px-4 sm:px-8">
             {messages.length === 0 ? (
@@ -438,6 +455,14 @@ function BrightPathChat() {
                     </Button>
                   ))}
                 </div>
+                <Button
+                  variant="outline"
+                  className="mt-3 h-10 w-fit gap-2 border-border bg-card text-destructive shadow-none hover:bg-destructive/5 hover:text-destructive"
+                  onClick={handleFailureDemo}
+                >
+                  <AlertTriangle aria-hidden="true" className="size-4" />
+                  Simulate failure
+                </Button>
               </div>
             ) : (
               <Conversation className="relative flex-1 overflow-x-hidden">
