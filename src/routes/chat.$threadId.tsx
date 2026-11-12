@@ -121,12 +121,8 @@ function BrightPathChat() {
           break;
         }
       }
-      const history = isRetry
-        ? existingMessages.filter((message, index) => {
-            if (message.role !== "assistant") return true;
-            return index < lastUserIndex;
-          })
-        : existingMessages;
+      const history = isRetry ? existingMessages.slice(0, lastUserIndex) : existingMessages;
+      const displayHistory = isRetry ? existingMessages.slice(0, lastUserIndex + 1) : history;
       const outgoingMessages = history
         .filter((message) => message.role === "user" || message.parts.some((part) => part.text))
         .map((message) => ({
@@ -155,7 +151,7 @@ function BrightPathChat() {
         }
       } else {
         setMessages(threadId, (current) => [
-          ...history,
+          ...displayHistory,
           { id: crypto.randomUUID(), role: "assistant", parts: [{ type: "text", text: "" }] },
         ]);
       }
