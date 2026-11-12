@@ -83,7 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "BrightPath AI Help Desk" },
-      { name: "description", content: "Help for BrightPath Learn lessons, coaching, and account access." },
+      {
+        name: "description",
+        content: "Help for BrightPath Learn lessons, coaching, and account access.",
+      },
       { name: "author", content: "BrightPath Learn" },
       { property: "og:title", content: "BrightPath AI Help Desk" },
       { property: "og:description", content: "Grounded help for BrightPath Learn members." },

@@ -25,11 +25,7 @@ import {
   ConversationEmptyState,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
-import {
-  Message,
-  MessageContent,
-  MessageResponse,
-} from "@/components/ai-elements/message";
+import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
 import {
   PromptInput,
   PromptInputFooter,
@@ -114,7 +110,10 @@ function BrightPathChat() {
       const existingMessages = thread?.messages ?? [];
       const hasPendingUserQuestion =
         existingMessages.at(-1)?.role === "user" &&
-        existingMessages.at(-1)?.parts.map((part) => part.text).join("") === normalizedQuestion;
+        existingMessages
+          .at(-1)
+          ?.parts.map((part) => part.text)
+          .join("") === normalizedQuestion;
       let lastUserIndex = -1;
       for (let index = existingMessages.length - 1; index >= 0; index -= 1) {
         if (existingMessages[index]?.role === "user") {
@@ -193,7 +192,12 @@ function BrightPathChat() {
           const data = line.slice(5).trim();
           if (!data || data === "[DONE]") return;
           const event = JSON.parse(data) as StreamEvent;
-          if (event.error || eventName === "error" || event.type === "error" || event.type === "response.failed") {
+          if (
+            event.error ||
+            eventName === "error" ||
+            event.type === "error" ||
+            event.type === "response.failed"
+          ) {
             throw new Error("The help desk could not complete the request.");
           }
           if (event.type === "response.output_text.delta" && typeof event.delta === "string") {
@@ -253,7 +257,16 @@ function BrightPathChat() {
         if (activeRequest.current === controller) activeRequest.current = null;
       }
     },
-    [focusComposer, messages.length, setMessages, setTitle, simulateFailure, status, thread, threadId],
+    [
+      focusComposer,
+      messages.length,
+      setMessages,
+      setTitle,
+      simulateFailure,
+      status,
+      thread,
+      threadId,
+    ],
   );
 
   const handleSubmit = useCallback(
@@ -307,7 +320,10 @@ function BrightPathChat() {
           </div>
 
           <section aria-labelledby="conversation-list-title">
-            <h2 id="conversation-list-title" className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
+            <h2
+              id="conversation-list-title"
+              className="mb-2 px-2 text-xs font-semibold text-muted-foreground"
+            >
               CONVERSATIONS
             </h2>
             <nav aria-label="Conversations" className="grid gap-1">
@@ -334,7 +350,10 @@ function BrightPathChat() {
           </section>
 
           <section aria-labelledby="test-questions-title">
-            <h2 id="test-questions-title" className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
+            <h2
+              id="test-questions-title"
+              className="mb-2 px-2 text-xs font-semibold text-muted-foreground"
+            >
               QUICK TESTS
             </h2>
             <div className="grid gap-2">
@@ -351,7 +370,9 @@ function BrightPathChat() {
                   </span>
                   <span className="min-w-0">
                     <span className="block text-xs font-medium text-foreground">{test.label}</span>
-                    <span className="mt-1 block text-xs leading-snug text-muted-foreground">{test.question}</span>
+                    <span className="mt-1 block text-xs leading-snug text-muted-foreground">
+                      {test.question}
+                    </span>
                   </span>
                 </Button>
               ))}
@@ -367,7 +388,10 @@ function BrightPathChat() {
             </div>
           </section>
 
-          <section aria-labelledby="source-list-title" className="mt-auto border-t border-border pt-4">
+          <section
+            aria-labelledby="source-list-title"
+            className="mt-auto border-t border-border pt-4"
+          >
             <button
               type="button"
               id="source-list-title"
@@ -375,15 +399,22 @@ function BrightPathChat() {
               onClick={() => setSourceListOpen((open) => !open)}
               className="flex w-full items-center justify-between px-2 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground"
             >
-              <span className="flex items-center gap-2"><BookOpen aria-hidden="true" className="size-4" /> SOURCE DOCUMENTS</span>
+              <span className="flex items-center gap-2">
+                <BookOpen aria-hidden="true" className="size-4" /> SOURCE DOCUMENTS
+              </span>
               <span aria-hidden="true">{sourceListOpen ? "−" : "+"}</span>
             </button>
             {sourceListOpen && (
               <ul className="mt-1 grid gap-1 px-2">
                 {BRIGHTPATH_DOCUMENTS.map((document) => (
-                  <li key={document.id} className="flex items-center gap-2 py-1 text-xs text-muted-foreground">
+                  <li
+                    key={document.id}
+                    className="flex items-center gap-2 py-1 text-xs text-muted-foreground"
+                  >
                     <FileText aria-hidden="true" className="size-3.5 shrink-0" />
-                    <span className="truncate">{document.id}: {document.title}</span>
+                    <span className="truncate">
+                      {document.id}: {document.title}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -393,7 +424,9 @@ function BrightPathChat() {
 
         <div className="flex items-center gap-2 border-t border-border px-5 py-4 text-xs text-muted-foreground">
           <LifeBuoy aria-hidden="true" className="size-4" />
-          <a href="mailto:support@brightpath.example" className="hover:text-primary">Contact support</a>
+          <a href="mailto:support@brightpath.example" className="hover:text-primary">
+            Contact support
+          </a>
           <ArrowUpRight aria-hidden="true" className="ml-auto size-3.5" />
         </div>
       </aside>
@@ -418,8 +451,16 @@ function BrightPathChat() {
           </label>
         </header>
 
-        <nav aria-label="Mobile conversations" className="flex items-center gap-2 overflow-x-auto border-b border-border bg-card px-4 py-2 md:hidden">
-          <Button onClick={handleCreateThread} size="sm" variant="outline" className="shrink-0 gap-1.5">
+        <nav
+          aria-label="Mobile conversations"
+          className="flex items-center gap-2 overflow-x-auto border-b border-border bg-card px-4 py-2 md:hidden"
+        >
+          <Button
+            onClick={handleCreateThread}
+            size="sm"
+            variant="outline"
+            className="shrink-0 gap-1.5"
+          >
             <Plus aria-hidden="true" className="size-4" /> New
           </Button>
           {threads.map((item) => (
@@ -457,7 +498,10 @@ function BrightPathChat() {
                       className="h-auto min-h-11 justify-start whitespace-normal border-border bg-card py-3 text-left font-normal shadow-none"
                       onClick={() => void sendQuestion(test.question)}
                     >
-                      <Clock3 aria-hidden="true" className="mr-1 size-4 shrink-0 text-muted-foreground" />
+                      <Clock3
+                        aria-hidden="true"
+                        className="mr-1 size-4 shrink-0 text-muted-foreground"
+                      />
                       <span>{test.question}</span>
                     </Button>
                   ))}
@@ -484,7 +528,9 @@ function BrightPathChat() {
 
                     return (
                       <Message key={message.id} from={message.role} className="max-w-[88%]">
-                        <div className={`flex items-center gap-2 text-xs ${message.role === "user" ? "justify-end" : ""}`}>
+                        <div
+                          className={`flex items-center gap-2 text-xs ${message.role === "user" ? "justify-end" : ""}`}
+                        >
                           {message.role === "assistant" && (
                             <img
                               src={brightPathMark}
@@ -500,12 +546,20 @@ function BrightPathChat() {
                           </span>
                         </div>
                         <MessageContent
-                          className={message.role === "user" ? "bg-primary px-4 py-3 text-primary-foreground" : "px-0 py-0"}
+                          className={
+                            message.role === "user"
+                              ? "bg-primary px-4 py-3 text-primary-foreground"
+                              : "px-0 py-0"
+                          }
                         >
                           {waiting ? (
-                            <Shimmer className="text-sm text-muted-foreground">Finding the right answer…</Shimmer>
+                            <Shimmer className="text-sm text-muted-foreground">
+                              Finding the right answer…
+                            </Shimmer>
                           ) : (
-                            <MessageResponse isAnimating={status === "streaming" && index === messages.length - 1}>
+                            <MessageResponse
+                              isAnimating={status === "streaming" && index === messages.length - 1}
+                            >
                               {text}
                             </MessageResponse>
                           )}
@@ -520,8 +574,14 @@ function BrightPathChat() {
 
             <div className="sticky bottom-0 bg-background pb-4 pt-3 sm:pb-6">
               {errorMessage && (
-                <div role="alert" className="mb-3 flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm">
-                  <AlertTriangle aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-destructive" />
+                <div
+                  role="alert"
+                  className="mb-3 flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm"
+                >
+                  <AlertTriangle
+                    aria-hidden="true"
+                    className="mt-0.5 size-4 shrink-0 text-destructive"
+                  />
                   <div className="min-w-0 flex-1">
                     <p className="font-medium text-destructive">Connection problem</p>
                     <p className="mt-1 text-muted-foreground">{errorMessage}</p>
@@ -549,7 +609,10 @@ function BrightPathChat() {
                 </div>
               )}
 
-              <PromptInput onSubmit={handleSubmit} className="rounded-lg border border-border bg-card shadow-sm">
+              <PromptInput
+                onSubmit={handleSubmit}
+                className="rounded-lg border border-border bg-card shadow-sm"
+              >
                 <PromptInputTextarea
                   ref={composerRef}
                   value={draft}
@@ -561,17 +624,28 @@ function BrightPathChat() {
                 />
                 <PromptInputFooter className="justify-between border-t border-border/70 px-3 py-2">
                   <span className="hidden items-center gap-1.5 text-xs text-muted-foreground sm:inline-flex">
-                    <Check aria-hidden="true" className="size-3.5 text-success" /> Answers cite BrightPath Learn documents
+                    <Check aria-hidden="true" className="size-3.5 text-success" /> Answers cite
+                    BrightPath Learn documents
                   </span>
                   <span className="text-xs text-muted-foreground sm:hidden">Cited answers</span>
                   <PromptInputSubmit
                     status={status}
                     disabled={status === "ready" && !draft.trim()}
-                    aria-label={status === "submitted" || status === "streaming" ? "Stop response" : "Send message"}
+                    aria-label={
+                      status === "submitted" || status === "streaming"
+                        ? "Stop response"
+                        : "Send message"
+                    }
                     onStop={handleStop}
                     className="size-9 rounded-md"
                   >
-                    {status === "ready" ? <Send aria-hidden="true" className="size-4" /> : status === "submitted" ? <LoaderCircle aria-hidden="true" className="size-4 animate-spin" /> : <X aria-hidden="true" className="size-4" />}
+                    {status === "ready" ? (
+                      <Send aria-hidden="true" className="size-4" />
+                    ) : status === "submitted" ? (
+                      <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />
+                    ) : (
+                      <X aria-hidden="true" className="size-4" />
+                    )}
                   </PromptInputSubmit>
                 </PromptInputFooter>
               </PromptInput>

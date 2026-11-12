@@ -15,8 +15,12 @@ describe("BrightPath grounding", () => {
   });
 
   it("requires the support referral for pricing and refund questions", () => {
-    expect(BRIGHTPATH_TEST_QUESTIONS[1]?.question).toBe("What are your pricing and refund policies?");
-    expect(BRIGHTPATH_SYSTEM_INSTRUCTIONS).toContain("pricing, refunds, job guarantees/placement promises");
+    expect(BRIGHTPATH_TEST_QUESTIONS[1]?.question).toBe(
+      "What are your pricing and refund policies?",
+    );
+    expect(BRIGHTPATH_SYSTEM_INSTRUCTIONS).toContain(
+      "pricing, refunds, job guarantees/placement promises",
+    );
     expect(BRIGHTPATH_SYSTEM_INSTRUCTIONS).toContain("support@brightpath.example");
   });
 
@@ -26,7 +30,9 @@ describe("BrightPath grounding", () => {
   });
 
   it("has a supported coaching question and an explicit failure test", () => {
-    expect(BRIGHTPATH_TEST_QUESTIONS[0]?.question).toBe("When do group coaching sessions take place?");
+    expect(BRIGHTPATH_TEST_QUESTIONS[0]?.question).toBe(
+      "When do group coaching sessions take place?",
+    );
     expect(BRIGHTPATH_FAILURE_QUESTION).toBe("When do group coaching sessions take place?");
   });
 });

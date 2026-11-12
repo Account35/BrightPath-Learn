@@ -34,5 +34,4 @@ export const BRIGHTPATH_TEST_QUESTIONS = [
   },
 ] as const;
 
-export const BRIGHTPATH_FAILURE_QUESTION =
-  "When do group coaching sessions take place?";
+export const BRIGHTPATH_FAILURE_QUESTION = "When do group coaching sessions take place?";

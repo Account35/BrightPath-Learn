@@ -41,14 +41,14 @@ function Index() {
   return (
     <main className="flex min-h-svh items-center justify-center bg-background px-6">
       <div className="flex flex-col items-center text-center">
-      <img
+        <img
           src={brightPathMark}
           alt=""
           loading="lazy"
           width={816}
           height={816}
           className="mb-4 size-14 object-contain"
-      />
+        />
         <h1 className="text-lg font-semibold text-foreground">BrightPath AI Help Desk</h1>
         <Shimmer className="mt-2 text-sm text-muted-foreground">Opening your conversation…</Shimmer>
       </div>
