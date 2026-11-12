@@ -9,10 +9,10 @@ function isRequestMessage(value: unknown): value is RequestMessage {
   if (value == null || typeof value !== "object") return false;
   const message = value as Record<string, unknown>;
   return (
-    (message.role === "user" || message.role === "assistant") &&
-    typeof message.content === "string" &&
-    message.content.length > 0 &&
-    message.content.length <= 4_000
+    (message["role"] === "user" || message["role"] === "assistant") &&
+    typeof message["content"] === "string" &&
+    message["content"].length > 0 &&
+    message["content"].length <= 4_000
   );
 }
 

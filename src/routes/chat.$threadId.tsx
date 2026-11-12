@@ -115,10 +115,17 @@ function BrightPathChat() {
       const hasPendingUserQuestion =
         existingMessages.at(-1)?.role === "user" &&
         existingMessages.at(-1)?.parts.map((part) => part.text).join("") === normalizedQuestion;
+      let lastUserIndex = -1;
+      for (let index = existingMessages.length - 1; index >= 0; index -= 1) {
+        if (existingMessages[index]?.role === "user") {
+          lastUserIndex = index;
+          break;
+        }
+      }
       const history = isRetry
         ? existingMessages.filter((message, index) => {
             if (message.role !== "assistant") return true;
-            return index < existingMessages.findLastIndex((item) => item.role === "user");
+            return index < lastUserIndex;
           })
         : existingMessages;
       const outgoingMessages = history
